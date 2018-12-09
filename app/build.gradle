@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -20,6 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
@@ -30,20 +36,21 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "com.android.support:recyclerview-v7:28.0.0"
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.0"
 
     def mvRxVersion = '0.5.0'
     def epoxyVersion = '2.16.4'
-    def lifecycleVersion = '1.1.1'
-    def robolectricVersion = '3.8'
     def moshiVersion = '1.6.0'
     def koinVersion = '0.9.3'
     def retrofitVersion = '2.4.0'
     def navVersion = '1.0.0-alpha07'
-    def roomVersion = "1.1.1"
+    def mockitoVersion = '2.18.3'
+    def mockitoInlineVersion = '2.16.0'
+    def mockitoKotlinVersion = '1.5.0'
 
     implementation "com.airbnb.android:mvrx:$mvRxVersion"
-    implementation ("com.airbnb.android:epoxy:$epoxyVersion") { exclude group: 'com.android.support' }
+    implementation ("com.airbnb.android:epoxy:$epoxyVersion")
     kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -54,5 +61,11 @@ dependencies {
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation "org.koin:koin-android-architecture:$koinVersion"
     implementation ("android.arch.navigation:navigation-fragment-ktx:$navVersion")
-    implementation ("android.arch.navigation:navigation-ui-ktx:$navVersion") { exclude group: 'com.android.support' }
+    implementation ("android.arch.navigation:navigation-ui-ktx:$navVersion")
+
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
+    testImplementation("com.nhaarman:mockito-kotlin-kt1.1:$mockitoKotlinVersion", {
+        exclude group: 'org.jetbrains.kotlin'
+    })
 }
