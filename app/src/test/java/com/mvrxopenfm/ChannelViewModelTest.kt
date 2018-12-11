@@ -55,6 +55,7 @@ class ChannelViewModelTest {
 
         withState(viewModel) {
             assertTrue(it.request is Fail)
+            assertEquals(throwable, (it.request as Fail).error)
         }
     }
 

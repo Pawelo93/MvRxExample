@@ -10,7 +10,7 @@ class LoadChannelGroupsUseCase(private val apiService: ApiService) {
 
     operator fun invoke(): Single<List<ChannelsGroup>> {
         return apiService.loadChannels()
-            .map (::mapper)
+            .map(::mapper)
     }
 
     private fun mapper(response: ChannelsGroupResponse): List<ChannelsGroup> {
@@ -18,9 +18,9 @@ class LoadChannelGroupsUseCase(private val apiService: ApiService) {
         response.wsGroupResponses.forEach { group ->
             val channels = mutableListOf<Channel>()
             group.streamIds.forEach { groupStreamId ->
-                response.wsChannelResponses.forEach {
-                    if(groupStreamId == it.streamId)
-                        channels.add(Channel(it.name ?: "no-name", it.streamId))
+                response.wsChannelResponses.forEach { channelResponse ->
+                    if(groupStreamId == channelResponse.streamId)
+                        channels.add(Channel(channelResponse.name ?: "no-name", channelResponse.streamId))
                 }
             }
             groups.add(ChannelsGroup(group.name, channels))
