@@ -28,4 +28,12 @@ class GroupRow @JvmOverloads constructor(context: Context) : LinearLayout(contex
     fun setClickListener(clickListener: OnClickListener?) {
         setOnClickListener(clickListener)
     }
+
+    /*
+    or
+
+    var listener: OnClickListener? = null
+        @CallbackProp set
+
+     */
 }

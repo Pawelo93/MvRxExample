@@ -49,7 +49,7 @@ class ChannelFragment : BaseFragment() {
                 clickListener { _ -> viewModel.toggleExpand(channelsGroup.name) }
             }
 
-            if (state.hiddenGroups.contains(channelsGroup.name))
+            if (state.isGroupHidden(channelsGroup.name))
                 return@forEach
 
             channelsGroup.channels.forEach { channel ->

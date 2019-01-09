@@ -9,4 +9,7 @@ data class ChannelGroupState(
     val channelsGroups: List<ChannelsGroup> = emptyList(),
     val hiddenGroups: List<String> = emptyList(),
     val request: Async<List<ChannelsGroup>> = Uninitialized
-) : MvRxState
+) : MvRxState {
+
+    fun isGroupHidden(groupName: String) = hiddenGroups.contains(groupName)
+}
