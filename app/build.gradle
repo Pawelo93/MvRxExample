@@ -39,15 +39,23 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.0"
 
-    def mvRxVersion = '0.5.0'
+    def mvRxVersion = '0.7.2'
     def epoxyVersion = '2.16.4'
     def moshiVersion = '1.6.0'
-    def koinVersion = '0.9.3'
     def retrofitVersion = '2.4.0'
     def navVersion = '1.0.0-alpha07'
     def mockitoVersion = '2.18.3'
     def mockitoInlineVersion = '2.16.0'
     def mockitoKotlinVersion = '1.5.0'
+    def dagger2Version = '2.21'
+
+    implementation "com.google.dagger:dagger:$dagger2Version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+    implementation "com.google.dagger:dagger-android-support:$dagger2Version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2Version"
+
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:0.3.2"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.3.2"
 
     implementation "com.airbnb.android:mvrx:$mvRxVersion"
     implementation ("com.airbnb.android:epoxy:$epoxyVersion")
@@ -59,7 +67,6 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$moshiVersion"
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
-    implementation "org.koin:koin-android-architecture:$koinVersion"
     implementation ("android.arch.navigation:navigation-fragment-ktx:$navVersion")
     implementation ("android.arch.navigation:navigation-ui-ktx:$navVersion")
 

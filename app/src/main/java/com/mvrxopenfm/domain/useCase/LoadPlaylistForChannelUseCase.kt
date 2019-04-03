@@ -6,8 +6,9 @@ import com.mvrxopenfm.data.network.ApiService
 import com.mvrxopenfm.domain.model.Playlist
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class LoadPlaylistForChannelUseCase(private val apiService: ApiService) {
+class LoadPlaylistForChannelUseCase @Inject constructor(private val apiService: ApiService) {
 
     operator fun invoke(streamId: Long): Single<Playlist> {
         return apiService.loadPlaylist(streamId.toInt())

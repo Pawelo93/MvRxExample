@@ -1,5 +1,6 @@
 package com.mvrxopenfm.ui.channels
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.View
@@ -13,11 +14,22 @@ import com.mvrxopenfm.ui.details.DetailsStateArgs
 import com.mvrxopenfm.ui.favoriteGroup.FavoriteViewModel
 import com.mvrxopenfm.views.channelRow
 import com.mvrxopenfm.views.groupRow
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 class ChannelFragment : BaseFragment() {
 
     private val viewModel: ChannelViewModel by fragmentViewModel()
+
+    @Inject
+    lateinit var channelViewModelFactory: ChannelViewModel.Factory
+
     private val favoriteViewModel: FavoriteViewModel by activityViewModel()
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.asyncSubscribe(ChannelGroupState::request, onFail = { error ->
@@ -33,14 +45,14 @@ class ChannelFragment : BaseFragment() {
 
     override fun epoxyController() = simpleController(viewModel, favoriteViewModel) { state, favoriteState ->
 
-        if(state.request is Loading)
+        if (state.request is Loading)
             return@simpleController
 
         val allGroups = listOf(favoriteState.favoriteChannelsGroup) + state.channelsGroups
 
         allGroups.forEach { channelsGroup ->
 
-            if(channelsGroup.channels.isEmpty())
+            if (channelsGroup.channels.isEmpty())
                 return@forEach
 
             groupRow {
@@ -56,8 +68,11 @@ class ChannelFragment : BaseFragment() {
                 channelRow {
                     id("channel ${channel.name} ${channelsGroup.name}")
                     render(channel)
-                    clickListener { _ -> navigateTo(R.id.action_channelFragmentEpoxy_to_detailsFragment,
-                            DetailsStateArgs(channel.name, channel.streamId))
+                    clickListener { _ ->
+                        navigateTo(
+                            R.id.action_channelFragmentEpoxy_to_detailsFragment,
+                            DetailsStateArgs(channel.name, channel.streamId)
+                        )
                     }
                 }
             }

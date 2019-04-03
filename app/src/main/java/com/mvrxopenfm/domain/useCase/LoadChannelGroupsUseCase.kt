@@ -5,8 +5,9 @@ import com.mvrxopenfm.data.network.ApiService
 import com.mvrxopenfm.domain.model.Channel
 import com.mvrxopenfm.domain.model.ChannelsGroup
 import io.reactivex.Single
+import javax.inject.Inject
 
-class LoadChannelGroupsUseCase(private val apiService: ApiService) {
+class LoadChannelGroupsUseCase @Inject constructor(private val apiService: ApiService) {
 
     operator fun invoke(): Single<List<ChannelsGroup>> {
         return apiService.loadChannels()
@@ -19,7 +20,7 @@ class LoadChannelGroupsUseCase(private val apiService: ApiService) {
             val channels = mutableListOf<Channel>()
             group.streamIds.forEach { groupStreamId ->
                 response.wsChannelResponses.forEach { channelResponse ->
-                    if(groupStreamId == channelResponse.streamId)
+                    if (groupStreamId == channelResponse.streamId)
                         channels.add(Channel(channelResponse.name ?: "no-name", channelResponse.streamId))
                 }
             }

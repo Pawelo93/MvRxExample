@@ -1,5 +1,6 @@
 package com.mvrxopenfm.ui.details
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,23 @@ import com.mvrxopenfm.domain.model.Channel
 import com.mvrxopenfm.domain.model.Playlist
 import com.mvrxopenfm.ui.favoriteGroup.FavoriteViewModel
 import com.squareup.picasso.Picasso
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_details.*
+import javax.inject.Inject
 
 class DetailsFragment : BaseMvRxFragment() {
 
     private val viewModel: DetailsViewModel by fragmentViewModel()
+
+    @Inject
+    lateinit var channelViewModelFactory: DetailsViewModel.Factory
+
     private val favoriteViewModel: FavoriteViewModel by existingViewModel()
+
+    override fun onAttach(context: Context?) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_details, container, false)
@@ -24,8 +36,10 @@ class DetailsFragment : BaseMvRxFragment() {
 
         setupFavorite()
 
-        when(state.request) {
-            is Loading -> { progressBar.visibility = View.VISIBLE; return@withState }
+        when (state.request) {
+            is Loading -> {
+                progressBar.visibility = View.VISIBLE; return@withState
+            }
             else -> progressBar.visibility = View.GONE
         }
 
